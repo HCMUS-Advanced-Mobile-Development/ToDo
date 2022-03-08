@@ -1,4 +1,7 @@
 {
   "todo": "TODO",
-  "search": "Search"
+  "search": "Search",
+  "empty": "Empty",
+  "addTodo": "Add TODO",
+  "whatIsYourPlan": "What is your plan"
 }

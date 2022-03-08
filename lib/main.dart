@@ -3,6 +3,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/ui/home/home.dart';
 
+import 'constants/route_constants.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,9 +25,15 @@ class MyApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      theme: ThemeData.light(),
-      home: SafeArea(
-        child: const Home(),
+      theme: ThemeData.light().copyWith(
+        primaryColor: Colors.deepOrangeAccent,
+        appBarTheme: ThemeData.light().appBarTheme.copyWith(
+          backgroundColor: Colors.deepOrange[400]
+        ),
+      ),
+      routes: RouteConstants.routesMap,
+      home: const SafeArea(
+        child: Home(),
       ),
     );
   }

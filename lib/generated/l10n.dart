@@ -69,6 +69,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Empty`
+  String get empty {
+    return Intl.message(
+      'Empty',
+      name: 'empty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add TODO`
+  String get addTodo {
+    return Intl.message(
+      'Add TODO',
+      name: 'addTodo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What is your plan`
+  String get whatIsYourPlan {
+    return Intl.message(
+      'What is your plan',
+      name: 'whatIsYourPlan',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

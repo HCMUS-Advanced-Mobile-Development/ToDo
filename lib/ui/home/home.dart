@@ -1,9 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:todo/constants/route_constants.dart';
 import 'package:todo/constants/search_bar_constant.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/widgets/search_bar.dart';
+
+import '../../widgets/empty_animation.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -41,26 +44,38 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   @override
+  void dispose() {
+    _addButtonAnimationController.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: _handleAdd,
         child: AnimatedIcon(
           icon: AnimatedIcons.add_event,
           progress: _addButtonAnimation,
         ),
       ),
-      body: Stack(children: [
+      body: Stack(children: const [
         Padding(
-          padding: const EdgeInsets.only(
+          padding: EdgeInsets.only(
             top: SearchBarConstant.height,
           ),
-          child: Center(child: Text("Home")),
+          child: Center(
+            child: EmptyAnimation(),
+          ),
         ),
         SearchBar()
       ]),
     );
   }
 
-  void _handleAdd() {}
+  void _handleAdd() {
+    Navigator.pushNamed(context, RouteConstants.addTodo);
+  }
 }
