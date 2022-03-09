@@ -25,6 +25,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addTodo": MessageLookupByLibrary.simpleMessage("Add TODO"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "thisFieldMustNotEmpty": MessageLookupByLibrary.simpleMessage(
+            "This field must not be empty"),
         "todo": MessageLookupByLibrary.simpleMessage("TODO"),
         "whatIsYourPlan":
             MessageLookupByLibrary.simpleMessage("What is your plan")

@@ -99,6 +99,16 @@ class S {
       args: [],
     );
   }
+
+  /// `This field must not be empty`
+  String get thisFieldMustNotEmpty {
+    return Intl.message(
+      'This field must not be empty',
+      name: 'thisFieldMustNotEmpty',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

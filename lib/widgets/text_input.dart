@@ -37,16 +37,15 @@ class _TextInputState extends State<TextInput> {
       minLines: widget.minLines,
       maxLines: widget.maxLines,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Theme.of(context).primaryColor),
-        ),
+        border: InputBorder.none,
+        focusedBorder: InputBorder.none,
         hintText: widget.hintText,
         fillColor: Theme.of(context).cardColor,
         filled: true,
         labelText: widget.labelText,
+      ),
+      style: const TextStyle(
+        fontSize: 24.0,
       ),
     );
   }

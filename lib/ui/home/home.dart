@@ -1,10 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:todo/constants/route_constants.dart';
 import 'package:todo/constants/search_bar_constant.dart';
 import 'package:todo/generated/l10n.dart';
+import 'package:todo/stores/todo_store/todo_store.dart';
 import 'package:todo/widgets/search_bar.dart';
+import 'package:todo/widgets/todo_item.dart';
 
 import '../../widgets/empty_animation.dart';
 
@@ -52,6 +56,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final todoStore = GetIt.instance.get<ToDoStore>();
+
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
@@ -59,18 +65,30 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         child: AnimatedIcon(
           icon: AnimatedIcons.add_event,
           progress: _addButtonAnimation,
+          size: 32.0,
         ),
       ),
-      body: Stack(children: const [
+      body: Stack(children: [
         Padding(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             top: SearchBarConstant.height,
           ),
           child: Center(
-            child: EmptyAnimation(),
+            child: Observer(builder: (context) {
+              return todoStore.todos.isEmpty
+                  ? const EmptyAnimation()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: todoStore.todos
+                            .map((element) => TodoItem(todoModel: element))
+                            .toList(),
+                      ),
+                    );
+            }),
           ),
         ),
-        SearchBar()
+        const SearchBar()
       ]),
     );
   }

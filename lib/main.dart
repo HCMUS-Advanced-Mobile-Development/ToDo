@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:todo/di/stores_locator.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/ui/home/home.dart';
 
 import 'constants/route_constants.dart';
 
 void main() {
+  StoresLocator.setUp();
+
   runApp(const MyApp());
 }
 

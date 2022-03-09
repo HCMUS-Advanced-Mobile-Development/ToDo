@@ -10,7 +10,10 @@ class EmptyAnimation extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset("assets/animations/checklist.gif", width: 100),
+        Image.asset(
+          "assets/animations/checklist.gif",
+          width: MediaQuery.of(context).size.width * 0.4,
+        ),
         Text(
           S.current.empty.toUpperCase(),
           style: Theme.of(context).textTheme.displaySmall,
