@@ -1,11 +1,14 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mobx/mobx.dart';
+import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/constants/route_constants.dart';
 import 'package:todo/constants/search_bar_constant.dart';
-import 'package:todo/generated/l10n.dart';
+import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
 import 'package:todo/widgets/search_bar.dart';
 import 'package:todo/widgets/todo_item.dart';
@@ -57,6 +60,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final todoStore = GetIt.instance.get<ToDoStore>();
+    final box = Hive.box<TodoModel>(HiveConstants.boxName);
+
+    todoStore.todos = ObservableList.of(box.values);
 
     return Scaffold(
       floatingActionButton: FloatingActionButton(

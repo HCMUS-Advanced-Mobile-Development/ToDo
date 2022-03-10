@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/di/stores_locator.dart';
 import 'package:todo/generated/l10n.dart';
+import 'package:todo/models/todo_model.dart';
 import 'package:todo/ui/home/home.dart';
 
 import 'constants/route_constants.dart';
 
-void main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(TodoModelAdapter());
+
+  await Hive.openBox<TodoModel>(HiveConstants.boxName);
+
   StoresLocator.setUp();
 
   runApp(const MyApp());

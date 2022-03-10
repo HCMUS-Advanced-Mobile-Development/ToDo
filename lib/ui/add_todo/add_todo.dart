@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
@@ -19,6 +21,7 @@ class AddTodo extends StatefulWidget {
 
 class _AddTodoState extends State<AddTodo> {
   final todoStore = GetIt.instance.get<ToDoStore>();
+  final box = Hive.box<TodoModel>(HiveConstants.boxName);
 
   final TodoModel todoModel = TodoModel(
     id: DateTime.now().millisecond.toString(),
@@ -103,6 +106,7 @@ class _AddTodoState extends State<AddTodo> {
 
   void _handleSaveTodo() {
     if (_formKey.currentState!.validate()) {
+      box.put(todoModel.id, todoModel);
       todoStore.todos.add(todoModel);
       Navigator.pop(context);
     }
