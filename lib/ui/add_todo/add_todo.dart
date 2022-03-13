@@ -8,7 +8,7 @@ import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
-import 'package:todo/utils/DateTimeUtils.dart';
+import 'package:todo/utils/date_time_utils.dart';
 import 'package:todo/widgets/text_input.dart';
 import 'package:validators/validators.dart';
 

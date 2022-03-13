@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -7,11 +6,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/constants/route_constants.dart';
-import 'package:todo/constants/search_bar_constant.dart';
+import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
-import 'package:todo/widgets/search_bar.dart';
-import 'package:todo/widgets/todo_item.dart';
+import 'package:todo/ui/home/widgets/list_item.dart';
 
 import '../../widgets/empty_animation.dart';
 
@@ -25,6 +23,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   late Animation<double> _addButtonAnimation;
   late AnimationController _addButtonAnimationController;
+
+  final todoStore = GetIt.instance.get<ToDoStore>();
+  final box = Hive.box<TodoModel>(HiveConstants.boxName);
 
   @override
   void initState() {
@@ -47,6 +48,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
 
+    todoStore.todos = ObservableList.of(box.values);
+
     super.initState();
   }
 
@@ -59,11 +62,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final todoStore = GetIt.instance.get<ToDoStore>();
-    final box = Hive.box<TodoModel>(HiveConstants.boxName);
-
-    todoStore.todos = ObservableList.of(box.values);
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
@@ -74,32 +72,73 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           size: 32.0,
         ),
       ),
-      body: Stack(children: [
-        Padding(
-          padding: const EdgeInsets.only(
-            top: SearchBarConstant.height,
-          ),
-          child: Center(
-            child: Observer(builder: (context) {
-              return todoStore.todos.isEmpty
-                  ? const EmptyAnimation()
-                  : Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: todoStore.todos
-                            .map((element) => TodoItem(todoModel: element))
-                            .toList(),
+      body: Observer(builder: (context) {
+        return todoStore.todos.isEmpty
+            ? const EmptyAnimation()
+            : Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ListView(
+                  children: [
+                    ListItem(
+                      title: S.current.upcoming,
+                      icon: Image.asset(
+                        "assets/animations/clock.gif",
+                        width: 48.0,
                       ),
-                    );
-            }),
-          ),
-        ),
-        const SearchBar()
-      ]),
+                      insideItemsCount: todoStore.upcoming.length,
+                      onClick: _handleUpcomingClick,
+                    ),
+                    Divider(
+                      color: Theme.of(context).primaryColor,
+                      thickness: 1.0,
+                    ),
+                    ListItem(
+                      title: S.current.today,
+                      icon: Image.asset(
+                        "assets/animations/calendar.gif",
+                        width: 48.0,
+                      ),
+                      insideItemsCount: todoStore.today.length,
+                      onClick: _handleTodayClick,
+                    ),
+                    Divider(
+                      color: Theme.of(context).primaryColor,
+                      thickness: 1.0,
+                    ),
+                    ListItem(
+                      title: S.current.all,
+                      icon: Image.asset(
+                        "assets/animations/complete.gif",
+                        width: 48.0,
+                      ),
+                      insideItemsCount: todoStore.todos.length,
+                      onClick: _handleAllClick,
+                    ),
+                  ],
+                ),
+              );
+      }),
     );
   }
 
   void _handleAdd() {
     Navigator.pushNamed(context, RouteConstants.addTodo);
+  }
+
+  _handleUpcomingClick() {
+    todoStore.filter = TodoFilter.upcoming;
+    Navigator.pushNamed(context, RouteConstants.todoList)
+        .whenComplete(() => todoStore.filter = TodoFilter.all);
+  }
+
+  _handleTodayClick() {
+    todoStore.filter = TodoFilter.today;
+    Navigator.pushNamed(context, RouteConstants.todoList)
+        .whenComplete(() => todoStore.filter = TodoFilter.all);
+  }
+
+  _handleAllClick() {
+    todoStore.filter = TodoFilter.all;
+    Navigator.pushNamed(context, RouteConstants.todoList);
   }
 }

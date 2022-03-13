@@ -109,6 +109,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Upcoming`
+  String get upcoming {
+    return Intl.message(
+      'Upcoming',
+      name: 'upcoming',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All`
+  String get all {
+    return Intl.message(
+      'All',
+      name: 'all',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

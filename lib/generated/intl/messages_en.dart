@@ -23,11 +23,14 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "addTodo": MessageLookupByLibrary.simpleMessage("Add TODO"),
+        "all": MessageLookupByLibrary.simpleMessage("All"),
         "empty": MessageLookupByLibrary.simpleMessage("Empty"),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
         "thisFieldMustNotEmpty": MessageLookupByLibrary.simpleMessage(
             "This field must not be empty"),
+        "today": MessageLookupByLibrary.simpleMessage("Today"),
         "todo": MessageLookupByLibrary.simpleMessage("TODO"),
+        "upcoming": MessageLookupByLibrary.simpleMessage("Upcoming"),
         "whatIsYourPlan":
             MessageLookupByLibrary.simpleMessage("What is your plan")
       };
