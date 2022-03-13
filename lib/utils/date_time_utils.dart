@@ -7,6 +7,9 @@ class DateTimeUtils {
         .format(deadline);
   }
 
+  /// Midnight is the time that magic no longer exist.
+  ///
+  /// And Kafka usually go to bed at this time also.
   static DateTime cinderella() {
     var now = DateTime.now();
 

@@ -8,6 +8,7 @@ class EmptyAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
           "assets/animations/checklist.gif",

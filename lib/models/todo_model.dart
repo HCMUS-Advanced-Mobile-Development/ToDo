@@ -12,6 +12,8 @@ class TodoModel extends HiveObject {
   DateTime deadline = DateTime.now().add(const Duration(days: 1));
   @HiveField(4)
   bool isDone;
+  @HiveField(5)
+  bool? isVisible;
 
-  TodoModel({required this.id, required this.todo, required this.deadline, this.isDone = false});
+  TodoModel({required this.id, required this.todo, required this.deadline, this.isDone = false, this.isVisible = true});
 }

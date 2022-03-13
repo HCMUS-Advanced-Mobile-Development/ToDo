@@ -14,7 +14,7 @@ Future main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(TodoModelAdapter());
-
+  // Hive.deleteFromDisk();
   await Hive.openBox<TodoModel>(HiveConstants.boxName);
 
   StoresLocator.setUp();

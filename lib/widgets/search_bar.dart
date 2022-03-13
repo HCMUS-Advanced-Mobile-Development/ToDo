@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:recase/recase.dart';
 import 'package:todo/generated/l10n.dart';
@@ -15,6 +16,7 @@ class SearchBar extends StatefulWidget {
 }
 
 class _SearchBarState extends State<SearchBar> {
+  final controller = FloatingSearchBarController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,17 @@ class _SearchBarState extends State<SearchBar> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: widget.onQueryChanged,
-      onSubmitted: widget.onSubmitted,
+      onSubmitted: (query) {
+        if (widget.onSubmitted != null) {
+          widget.onSubmitted!(query);
+        }
+
+        controller.close();
+      },
+      controller: controller,
+      clearQueryOnClose: false,
+      closeOnBackdropTap: true,
+
       // Specify a custom transition to be used for
       // animating between opened and closed stated.
       transition: CircularFloatingSearchBarTransition(),
@@ -43,7 +55,7 @@ class _SearchBarState extends State<SearchBar> {
       builder: (context, transition) {
         return ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: const Material(
+          child: Material(
             color: Colors.white,
             elevation: 4.0,
             // child: Column(

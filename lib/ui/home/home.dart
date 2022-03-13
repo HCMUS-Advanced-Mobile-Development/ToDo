@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
+import 'package:recase/recase.dart';
 import 'package:todo/constants/hive_constants.dart';
 import 'package:todo/constants/route_constants.dart';
 import 'package:todo/generated/l10n.dart';
@@ -63,6 +64,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          S.current.todo.titleCase,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).primaryColor,
         onPressed: _handleAdd,
@@ -74,7 +80,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
       body: Observer(builder: (context) {
         return todoStore.todos.isEmpty
-            ? const EmptyAnimation()
+            ? SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: const EmptyAnimation(),
+              )
             : Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: ListView(
