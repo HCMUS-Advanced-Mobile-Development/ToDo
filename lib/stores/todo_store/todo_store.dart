@@ -11,6 +11,9 @@ abstract class _ToDoStore with Store {
   ObservableList<TodoModel> todos = ObservableList.of([]);
 
   @observable
+  TodoModel? selectedTodo;
+
+  @observable
   TodoFilter filter = TodoFilter.all;
 
   @computed

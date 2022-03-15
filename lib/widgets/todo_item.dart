@@ -63,10 +63,10 @@ class _TodoItemState extends State<TodoItem> {
   void _handleDone() {
     setState(() {
       widget.todoModel.isDone = !widget.todoModel.isDone;
-
-      if (widget.onDoneButtonClick != null) {
-        widget.onDoneButtonClick!(context, widget.todoModel);
-      }
     });
+
+    if (widget.onDoneButtonClick != null) {
+      widget.onDoneButtonClick!(context, widget.todoModel);
+    }
   }
 }

@@ -46,6 +46,21 @@ mixin _$ToDoStore on _ToDoStore, Store {
     });
   }
 
+  final _$selectedTodoAtom = Atom(name: '_ToDoStore.selectedTodo');
+
+  @override
+  TodoModel? get selectedTodo {
+    _$selectedTodoAtom.reportRead();
+    return super.selectedTodo;
+  }
+
+  @override
+  set selectedTodo(TodoModel? value) {
+    _$selectedTodoAtom.reportWrite(value, super.selectedTodo, () {
+      super.selectedTodo = value;
+    });
+  }
+
   final _$filterAtom = Atom(name: '_ToDoStore.filter');
 
   @override
@@ -65,6 +80,7 @@ mixin _$ToDoStore on _ToDoStore, Store {
   String toString() {
     return '''
 todos: ${todos},
+selectedTodo: ${selectedTodo},
 filter: ${filter},
 upcoming: ${upcoming},
 today: ${today},
