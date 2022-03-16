@@ -1,3 +1,3 @@
 class SearchBarConstant {
-  static const height = 50.0;
+  static const height = 120.0;
 }

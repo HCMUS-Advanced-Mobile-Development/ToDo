@@ -10,6 +10,7 @@ import 'package:todo/constants/search_bar_constant.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
+import 'package:todo/widgets/empty_animation.dart';
 import 'package:todo/widgets/search_bar.dart';
 import 'package:todo/widgets/todo_item.dart';
 
@@ -36,19 +37,26 @@ class TodoList extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Observer(builder: (context) {
-                return ListView.builder(
-                  itemBuilder: (context, index) {
-                    if (todos[index].isVisible != null &&
-                        todos[index].isVisible! == false) {
-                      return const SizedBox.shrink();
-                    }
-                    return TodoItem(
-                      todoModel: todos[index],
-                      onDoneButtonClick: _handleDoneClick,
-                    );
-                  },
-                  itemCount: todos.length,
-                );
+                return todoStore.todos.isEmpty
+                    ? SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: const EmptyAnimation(),
+                      )
+                    : AnimatedList(
+                        itemBuilder: (context, index, animation) {
+                          if (todos[index].isDone || todos[index].isVisible! == false) {
+                            return const SizedBox.shrink();
+                          }
+                          return SizeTransition(
+                            sizeFactor: animation,
+                            child: TodoItem(
+                              todoModel: todos[index],
+                              onDoneButtonClick: _handleDoneClick,
+                            ),
+                          );
+                        },
+                        initialItemCount: todos.length,
+                      );
               }),
             ),
           ),
@@ -63,18 +71,25 @@ class TodoList extends StatelessWidget {
 
   _handleQuery(String query) {
     for (var element in todos) {
-      element.isVisible = element.todo.contains(query);
+      element.isVisible = element.todo.toLowerCase().contains(query.toLowerCase());
     }
 
     todos.replaceRange(0, todos.length, todos);
   }
 
   _handleDoneClick(BuildContext context, TodoModel todoModel) async {
-    // todoModel.isDone = !todoModel.isDone;
     var index =
         todos.indexWhere((element) => element.id.compareTo(todoModel.id) == 0);
-    todos[index] = todoModel;
+    todos.removeAt(index);
 
-    toDoBox.put(todoModel.id, todoModel);
+    AnimatedList.of(context).removeItem(
+      index,
+      (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: TodoItem(todoModel: todoModel),
+      ),
+    );
+
+    await toDoBox.delete(todoModel.key);
   }
 }

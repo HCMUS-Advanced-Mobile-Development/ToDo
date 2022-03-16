@@ -79,53 +79,48 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ),
       body: Observer(builder: (context) {
-        return todoStore.todos.isEmpty
-            ? SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: const EmptyAnimation(),
-              )
-            : Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: ListView(
-                  children: [
-                    ListItem(
-                      title: S.current.upcoming,
-                      icon: Image.asset(
-                        "assets/animations/clock.gif",
-                        width: 48.0,
-                      ),
-                      insideItemsCount: todoStore.upcoming.length,
-                      onClick: _handleUpcomingClick,
-                    ),
-                    Divider(
-                      color: Theme.of(context).primaryColor,
-                      thickness: 1.0,
-                    ),
-                    ListItem(
-                      title: S.current.today,
-                      icon: Image.asset(
-                        "assets/animations/calendar.gif",
-                        width: 48.0,
-                      ),
-                      insideItemsCount: todoStore.today.length,
-                      onClick: _handleTodayClick,
-                    ),
-                    Divider(
-                      color: Theme.of(context).primaryColor,
-                      thickness: 1.0,
-                    ),
-                    ListItem(
-                      title: S.current.all,
-                      icon: Image.asset(
-                        "assets/animations/complete.gif",
-                        width: 48.0,
-                      ),
-                      insideItemsCount: todoStore.todos.length,
-                      onClick: _handleAllClick,
-                    ),
-                  ],
+        return Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: ListView(
+            children: [
+              ListItem(
+                title: S.current.upcoming,
+                icon: Image.asset(
+                  "assets/animations/clock.gif",
+                  width: 48.0,
                 ),
-              );
+                insideItemsCount: todoStore.upcoming.length,
+                onClick: _handleUpcomingClick,
+              ),
+              Divider(
+                color: Theme.of(context).primaryColor,
+                thickness: 1.0,
+              ),
+              ListItem(
+                title: S.current.today,
+                icon: Image.asset(
+                  "assets/animations/calendar.gif",
+                  width: 48.0,
+                ),
+                insideItemsCount: todoStore.today.length,
+                onClick: _handleTodayClick,
+              ),
+              Divider(
+                color: Theme.of(context).primaryColor,
+                thickness: 1.0,
+              ),
+              ListItem(
+                title: S.current.all,
+                icon: Image.asset(
+                  "assets/animations/complete.gif",
+                  width: 48.0,
+                ),
+                insideItemsCount: todoStore.todos.length,
+                onClick: _handleAllClick,
+              ),
+            ],
+          ),
+        );
       }),
     );
   }
