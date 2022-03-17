@@ -10,9 +10,8 @@ import 'package:todo/constants/route_constants.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
+import 'package:todo/ui/home/widgets/add_button.dart';
 import 'package:todo/ui/home/widgets/list_item.dart';
-
-import '../../widgets/empty_animation.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -49,7 +48,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       ),
     );
 
-    todoStore.todos = ObservableList.of(box.values);
+    todoStore.todos = ObservableList.of(box.values.where((element) => !element.isDone));
 
     super.initState();
   }
@@ -69,15 +68,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           S.current.todo.titleCase,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: _handleAdd,
-        child: AnimatedIcon(
-          icon: AnimatedIcons.add_event,
-          progress: _addButtonAnimation,
-          size: 32.0,
-        ),
-      ),
+      floatingActionButton: const AddButton(),
       body: Observer(builder: (context) {
         return Padding(
           padding: const EdgeInsets.all(10.0),

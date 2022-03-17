@@ -10,6 +10,7 @@ import 'package:todo/constants/search_bar_constant.dart';
 import 'package:todo/generated/l10n.dart';
 import 'package:todo/models/todo_model.dart';
 import 'package:todo/stores/todo_store/todo_store.dart';
+import 'package:todo/ui/home/widgets/add_button.dart';
 import 'package:todo/widgets/empty_animation.dart';
 import 'package:todo/widgets/search_bar.dart';
 import 'package:todo/widgets/todo_item.dart';
@@ -28,6 +29,7 @@ class TodoList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: const AddButton(),
       body: Stack(
         children: [
           Padding(
@@ -44,7 +46,7 @@ class TodoList extends StatelessWidget {
                       )
                     : AnimatedList(
                         itemBuilder: (context, index, animation) {
-                          if (todos[index].isDone || todos[index].isVisible! == false) {
+                          if (todos[index].isDone || todos[index].isVisible == null || todos[index].isVisible! == false) {
                             return const SizedBox.shrink();
                           }
                           return SizeTransition(

@@ -132,6 +132,7 @@ class _AddTodoState extends State<AddTodo> {
     if (_formKey.currentState!.validate()) {
       box.put(todoModel.id, todoModel);
       todoStore.todos.add(todoModel);
+
       Navigator.pop(context);
     }
   }

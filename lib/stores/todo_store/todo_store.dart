@@ -19,6 +19,8 @@ abstract class _ToDoStore with Store {
   @computed
   ObservableList<TodoModel> get upcoming {
     return todos
+        .where((element) => !element.isDone)
+        .toList()
         .getRange(0, todos.length < 3 ? todos.length : 3)
         .toList()
         .asObservable();
@@ -31,7 +33,8 @@ abstract class _ToDoStore with Store {
             element.deadline.millisecondsSinceEpoch >=
                 DateTimeUtils.beginOfDay().millisecondsSinceEpoch &&
             element.deadline.millisecondsSinceEpoch <=
-                DateTimeUtils.cinderella().millisecondsSinceEpoch)
+                DateTimeUtils.cinderella().millisecondsSinceEpoch &&
+            !element.isDone)
         .toList()
         .asObservable();
   }
