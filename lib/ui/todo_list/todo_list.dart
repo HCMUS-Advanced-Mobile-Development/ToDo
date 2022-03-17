@@ -82,8 +82,6 @@ class TodoList extends StatelessWidget {
   _handleDoneClick(BuildContext context, TodoModel todoModel) async {
     var index =
         todos.indexWhere((element) => element.id.compareTo(todoModel.id) == 0);
-    todos.removeAt(index);
-
     AnimatedList.of(context).removeItem(
       index,
       (context, animation) => SizeTransition(
@@ -91,6 +89,8 @@ class TodoList extends StatelessWidget {
         child: TodoItem(todoModel: todoModel),
       ),
     );
+
+    todoStore.removeItem(todoModel);
 
     await toDoBox.delete(todoModel.key);
   }

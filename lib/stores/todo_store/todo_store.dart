@@ -50,6 +50,16 @@ abstract class _ToDoStore with Store {
         return todos;
     }
   }
+
+  @action
+  void addItem(TodoModel item) {
+    todos.add(item);
+  }
+
+  @action
+  void removeItem(TodoModel todoModel) {
+    todos.removeWhere((element) => element.id == todoModel.id);
+  }
 }
 
 enum TodoFilter { upcoming, today, all }

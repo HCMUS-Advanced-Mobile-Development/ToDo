@@ -76,6 +76,30 @@ mixin _$ToDoStore on _ToDoStore, Store {
     });
   }
 
+  final _$_ToDoStoreActionController = ActionController(name: '_ToDoStore');
+
+  @override
+  void addItem(TodoModel item) {
+    final _$actionInfo =
+        _$_ToDoStoreActionController.startAction(name: '_ToDoStore.addItem');
+    try {
+      return super.addItem(item);
+    } finally {
+      _$_ToDoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeItem(TodoModel todoModel) {
+    final _$actionInfo =
+        _$_ToDoStoreActionController.startAction(name: '_ToDoStore.removeItem');
+    try {
+      return super.removeItem(todoModel);
+    } finally {
+      _$_ToDoStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

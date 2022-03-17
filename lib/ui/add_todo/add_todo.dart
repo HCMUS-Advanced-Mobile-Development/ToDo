@@ -131,35 +131,38 @@ class _AddTodoState extends State<AddTodo> {
   void _handleSaveTodo() {
     if (_formKey.currentState!.validate()) {
       box.put(todoModel.id, todoModel);
-      todoStore.todos.add(todoModel);
+      todoStore.addItem(todoModel);
 
       Navigator.pop(context);
     }
   }
 
   void _handleSetDeadline() {
-    DatePicker.showDateTimePicker(context, currentTime: todoModel.deadline,
-        onConfirm: (date) async {
-      setState(() {
-        todoModel.deadline = date;
-      });
+    DatePicker.showDateTimePicker(
+      context,
+      currentTime: todoModel.deadline,
+      onConfirm: (date) async {
+        setState(() {
+          todoModel.deadline = date;
+        });
 
-      await flutterLocalNotificationsPlugin.cancel(int.parse(todoModel.id));
+        // await flutterLocalNotificationsPlugin.cancel(int.parse(todoModel.id));
 
-      await flutterLocalNotificationsPlugin.zonedSchedule(
-          int.parse(todoModel.id),
-          'TODO',
-          todoModel.todo,
-          tz.TZDateTime.from(todoModel.deadline, tz.local),
-          const NotificationDetails(
-              android: AndroidNotificationDetails(
-            NotificationConstant.chanelId,
-            NotificationConstant.chanelName,
-          )),
-          payload: todoModel.id,
-          androidAllowWhileIdle: true,
-          uiLocalNotificationDateInterpretation:
-              UILocalNotificationDateInterpretation.absoluteTime);
-    });
+        await flutterLocalNotificationsPlugin.zonedSchedule(
+            int.parse(todoModel.id.substring(todoModel.id.length - 4)),
+            'TODO',
+            todoModel.todo,
+            tz.TZDateTime.from(todoModel.deadline, tz.local),
+            const NotificationDetails(
+                android: AndroidNotificationDetails(
+              NotificationConstant.chanelId,
+              NotificationConstant.chanelName,
+            )),
+            payload: todoModel.id,
+            androidAllowWhileIdle: true,
+            uiLocalNotificationDateInterpretation:
+                UILocalNotificationDateInterpretation.absoluteTime);
+      },
+    );
   }
 }
